@@ -1,0 +1,119 @@
+name: Space heater
+products:
+  - id: soyam3kwxdijcp8u
+    manufacturer: Ballu
+    model: Space Heater EU-v4.3
+entities:
+  - entity: climate
+    translation_key: heater
+    dps:
+      - id: 1
+        type: boolean
+        name: hvac_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            value: heat
+      - id: 2
+        type: integer
+        name: temperature
+        unit: C
+        range:
+          min: 3
+          max: 30
+      - id: 3
+        type: integer
+        name: current_temperature
+      # The cloud spec only declares "eco", but the device reports
+      # "comfort" in its normal mode.
+      - id: 4
+        type: string
+        name: preset_mode
+        mapping:
+          - dps_val: comfort
+            value: comfort
+          - dps_val: eco
+            value: eco
+      - id: 11
+        type: string
+        name: hvac_action
+        mapping:
+          - dps_val: heating
+            value: heating
+          - dps_val: standby
+            value: idle
+          - value: idle
+  - entity: select
+    name: Heating level
+    icon: "mdi:radiator"
+    category: config
+    dps:
+      - id: 5
+        type: string
+        name: option
+        mapping:
+          - dps_val: level_1
+            value: "1"
+          - dps_val: level_2
+            value: "2"
+  - entity: lock
+    translation_key: child_lock
+    category: config
+    dps:
+      - id: 7
+        type: boolean
+        name: lock
+  # DP 10 ("light" in the cloud spec) switches the display, inverted:
+  # true = display off (confirmed by the user on the device).
+  - entity: light
+    translation_key: display
+    category: config
+    dps:
+      - id: 10
+        type: boolean
+        name: switch
+        mapping:
+          - dps_val: true
+            value: false
+          - dps_val: false
+            value: true
+  - entity: sensor
+    class: power
+    dps:
+      - id: 12
+        type: integer
+        name: sensor
+        unit: W
+        class: measurement
+  - entity: select
+    translation_key: timer
+    category: config
+    dps:
+      - id: 19
+        type: string
+        name: option
+        mapping:
+          - dps_val: cancel
+            value: cancel
+          - dps_val: "1h"
+            value: "1h"
+          - dps_val: "2h"
+            value: "2h"
+          - dps_val: "3h"
+            value: "3h"
+          - dps_val: "4h"
+            value: "4h"
+          - dps_val: "5h"
+            value: "5h"
+          - dps_val: "6h"
+            value: "6h"
+  - entity: sensor
+    class: duration
+    translation_key: time_remaining
+    category: diagnostic
+    dps:
+      - id: 20
+        type: integer
+        name: sensor
+        unit: min
